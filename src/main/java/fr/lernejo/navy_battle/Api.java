@@ -16,6 +16,14 @@ public class Api {
 
     public Api(final int port) throws IOException {
         this.server = HttpServer.create();
+        this.server.createContext("/", exchange -> {
+            final String body = "No route for " + exchange.getRequestMethod() + " " + exchange.getRequestURI().getPath();
+            final byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(404, bytes.length);
+            try (final OutputStream os = exchange.getResponseBody()) {
+                os.write(bytes);
+            }
+        });
         this.server.createContext("/ping", exchange -> {
             final String body = "Pong!";
             final byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
