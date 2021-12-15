@@ -3,9 +3,9 @@ package fr.lernejo.navy_battle.api;
 public class ApiResponse {
 
     private final int status;
-    private final String body;
+    private final Object body;
 
-    public ApiResponse(final int status, final String body) {
+    public ApiResponse(final int status, final Object body) {
         this.status = status;
         this.body = body;
     }
@@ -14,7 +14,7 @@ public class ApiResponse {
         return status;
     }
 
-    public String getBody() {
+    public Object getBody() {
         return body;
     }
 }
