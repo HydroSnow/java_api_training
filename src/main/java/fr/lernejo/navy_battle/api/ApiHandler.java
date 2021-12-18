@@ -1,7 +1,8 @@
 package fr.lernejo.navy_battle.api;
 
-import com.sun.net.httpserver.HttpExchange;
+import com.google.gson.JsonElement;
 
 public interface ApiHandler {
-    ApiResponse handle(final HttpExchange exchange);
+
+    ApiResponse handle(final String method, final JsonElement requestBody);
 }
