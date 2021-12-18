@@ -34,16 +34,18 @@ public class Api {
                     final Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
                     requestBody = this.gson.fromJson(reader, JsonElement.class);
                 }
-                final ApiResponse response = handler.handle(method, requestBody);
-                status = response.getStatus();
-                responseBody = response.getBody();
+                try {
+                    final ApiResponse response = handler.handle(method, requestBody);
+                    status = response.getStatus();
+                    responseBody = response.getBody();
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    status = 500;
+                    responseBody = "Internal Server Error";
+                }
             } catch (final JsonSyntaxException e) {
                 status = 400;
-                responseBody = "Bad Request";
-            } catch (final Exception e) {
-                e.printStackTrace();
-                status = 500;
-                responseBody = "Internal Server Error";
+                responseBody = "Bad Request: Invalid JSON";
             }
             final String json = this.gson.toJson(responseBody);
             final byte[] bytes = json.getBytes(StandardCharsets.UTF_8);

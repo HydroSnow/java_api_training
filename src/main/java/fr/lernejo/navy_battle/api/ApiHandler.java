@@ -4,5 +4,5 @@ import com.google.gson.JsonElement;
 
 public interface ApiHandler {
 
-    ApiResponse handle(final String method, final JsonElement requestBody);
+    ApiResponse handle(final String method, final JsonElement requestBodyElement);
 }

@@ -7,11 +7,11 @@ import fr.lernejo.navy_battle.api.ApiResponse;
 public class PingRoute implements ApiHandler {
 
     @Override
-    public ApiResponse handle(final String method, final JsonElement requestBody) {
+    public ApiResponse handle(final String method, final JsonElement requestBodyElement) {
         if (method.equals("GET")) {
             return new ApiResponse(200, "Pong!");
         } else {
-            return new NotFoundRoute().handle(method, requestBody);
+            return new ApiResponse(404, "Not Found: Method Not Allowed");
         }
     }
 }

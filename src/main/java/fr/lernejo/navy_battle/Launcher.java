@@ -33,7 +33,8 @@ public class Launcher {
             return;
         }
 
-        final GameManager manager = new GameManager();
+        final String endpoint = "http://" + "localhost" + ":" + port;
+        final GameManager manager = new GameManager(endpoint);
 
         // create api
         final Api api;

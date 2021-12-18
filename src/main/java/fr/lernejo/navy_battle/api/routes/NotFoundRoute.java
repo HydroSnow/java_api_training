@@ -7,7 +7,7 @@ import fr.lernejo.navy_battle.api.ApiResponse;
 public class NotFoundRoute implements ApiHandler {
 
     @Override
-    public ApiResponse handle(final String method, final JsonElement requestBody) {
+    public ApiResponse handle(final String method, final JsonElement requestBodyElement) {
         return new ApiResponse(404, "Not Found");
     }
 }
