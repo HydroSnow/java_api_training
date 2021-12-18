@@ -1,6 +1,7 @@
 package fr.lernejo.navy_battle;
 
 import fr.lernejo.navy_battle.api.Api;
+import fr.lernejo.navy_battle.api.routes.ApiGameFireRoute;
 import fr.lernejo.navy_battle.api.routes.ApiGameStartRoute;
 import fr.lernejo.navy_battle.api.routes.NotFoundRoute;
 import fr.lernejo.navy_battle.api.routes.PingRoute;
@@ -50,6 +51,7 @@ public class Launcher {
         api.createContext("/", new NotFoundRoute());
         api.createContext("/ping", new PingRoute());
         api.createContext("/api/game/start", new ApiGameStartRoute(manager));
+        api.createContext("/api/game/fire", new ApiGameFireRoute(manager));
         System.out.println("Listening on " + selfUrl);
 
         if (args.length > 1) {

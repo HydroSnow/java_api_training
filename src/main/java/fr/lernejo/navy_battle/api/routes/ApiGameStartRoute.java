@@ -21,7 +21,7 @@ public class ApiGameStartRoute implements ApiHandler {
     }
 
     @Override
-    public ApiResponse handle(final String method, final JsonElement requestBodyElement) {
+    public ApiResponse handle(final String method, final Map<String, String> queryParams, final JsonElement requestBodyElement) {
         if (method.equals("POST")) {
             if (!requestBodyElement.isJsonObject()) {
                 return new ApiResponse(400, "Bad Request: Body is not an object");
