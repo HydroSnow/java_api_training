@@ -54,7 +54,7 @@ public class ComputerPlayer implements Player {
         for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
             for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
                 final CellCoordinates coordinates = new CellCoordinates(x, y);
-                if (board.getCell(coordinates) == OpponentBoard.Cell.UNKNOWN) {
+                if (board.getCell(coordinates) == null) {
                     possibleShots.add(coordinates);
                 }
             }

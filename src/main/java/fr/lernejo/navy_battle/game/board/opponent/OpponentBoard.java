@@ -5,7 +5,6 @@ import fr.lernejo.navy_battle.game.board.CellCoordinates;
 public class OpponentBoard {
 
     public enum Cell {
-        UNKNOWN,
         EMPTY,
         HIT,
         SUNK
@@ -17,7 +16,7 @@ public class OpponentBoard {
         this.grid = new Cell[CellCoordinates.HORIZONTAL_SIZE][CellCoordinates.VERTICAL_SIZE];
         for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
             for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
-                this.grid[x][y] = Cell.UNKNOWN;
+                this.grid[x][y] = null;
             }
         }
     }
@@ -41,7 +40,7 @@ public class OpponentBoard {
         for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
             str.append("|");
             for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
-                if (this.grid[x][y] == Cell.UNKNOWN) {
+                if (this.grid[x][y] == null) {
                     str.append(" ");
                 } else if (this.grid[x][y] == Cell.EMPTY) {
                     str.append("-");

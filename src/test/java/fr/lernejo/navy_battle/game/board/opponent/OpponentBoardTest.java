@@ -9,7 +9,7 @@ public class OpponentBoardTest {
     @Test
     public void test() {
         final OpponentBoard board = new OpponentBoard();
-        Assert.assertEquals(board.getCell(new CellCoordinates(5, 5)), OpponentBoard.Cell.UNKNOWN);
+        Assert.assertNull(board.getCell(new CellCoordinates(5, 5)));
         board.setCell(new CellCoordinates(5, 5), OpponentBoard.Cell.HIT);
         Assert.assertEquals(board.getCell(new CellCoordinates(5, 5)), OpponentBoard.Cell.HIT);
     }

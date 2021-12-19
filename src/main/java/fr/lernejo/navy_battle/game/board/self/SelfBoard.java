@@ -2,16 +2,11 @@ package fr.lernejo.navy_battle.game.board.self;
 
 import fr.lernejo.navy_battle.game.board.CellCoordinates;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SelfBoard {
 
-    private final List<Boat> boats;
     private final BoatPart[][] grid;
 
     public SelfBoard() {
-        this.boats = new ArrayList<>();
         this.grid = new BoatPart[CellCoordinates.HORIZONTAL_SIZE][CellCoordinates.VERTICAL_SIZE];
         for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
             for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
@@ -69,9 +64,6 @@ public class SelfBoard {
         }
 
         if (direction == Direction.HORIZONTAL) {
-            // add boat to list
-            this.boats.add(boat);
-
             // add boat to grid
             final BoatPart[] parts = boat.getParts();
             final int y = coordinates.getY();
@@ -81,9 +73,6 @@ public class SelfBoard {
             }
 
         } else if (direction == Direction.VERTICAL) {
-            // add boat to list
-            this.boats.add(boat);
-
             // add boat to grid
             final BoatPart[] parts = boat.getParts();
             final int x = coordinates.getX();
@@ -118,9 +107,12 @@ public class SelfBoard {
     }
 
     public boolean isValid() {
-        for (final Boat boat : this.boats) {
-            if (boat.isValid()) {
-                return true;
+        for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
+            for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
+                final BoatPart part = this.grid[x][y];
+                if (part != null && part.isValid()) {
+                    return true;
+                }
             }
         }
         return false;
