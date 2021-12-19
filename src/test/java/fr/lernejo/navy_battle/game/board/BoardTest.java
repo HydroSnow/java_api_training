@@ -12,10 +12,11 @@ public class BoardTest {
         Assert.assertEquals(board.fire(new CellCoordinates(2, 3)), Board.Fire.MISS);
         final Boat boat1 = new Boat(2);
         board.addBoat(new CellCoordinates(6, 8), Board.Direction.VERTICAL, boat1);
+        Assert.assertEquals(board.fire(new CellCoordinates(7, 8)), Board.Fire.MISS);
         Assert.assertTrue(board.isValid());
-        board.fire(new CellCoordinates(6, 8));
+        Assert.assertEquals(board.fire(new CellCoordinates(6, 8)), Board.Fire.HIT);
         Assert.assertTrue(board.isValid());
-        board.fire(new CellCoordinates(6, 9));
+        Assert.assertEquals(board.fire(new CellCoordinates(6, 9)), Board.Fire.SUNK);
         Assert.assertFalse(board.isValid());
     }
 }
