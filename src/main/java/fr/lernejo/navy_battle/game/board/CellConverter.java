@@ -11,8 +11,8 @@ public class CellConverter {
     public CellConverter() {
         this.cellCoordinatesMap = new HashMap<>();
         this.coordinatesCellMap = new HashMap<>();
-        for (int x = 0; x < Board.HORIZONTAL_SIZE; x++) {
-            for (int y = 0; y < Board.VERTICAL_SIZE; y++) {
+        for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
+            for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
                 final String cell = (char) ('A' + y) + Integer.toString(x + 1);
                 final CellCoordinates coordinates = new CellCoordinates(x, y);
                 this.cellCoordinatesMap.put(cell, coordinates);

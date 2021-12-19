@@ -55,11 +55,6 @@ public class CellConverterTest {
         Assert.assertEquals(this.converter.convert(9, 9), "J10");
     }
 
-    @Test
-    public void testUnknownCoordinates() {
-        Assert.assertNull(this.converter.convert(5, 12));
-    }
-
     @After
     public void tearDown() {
         this.converter = null;

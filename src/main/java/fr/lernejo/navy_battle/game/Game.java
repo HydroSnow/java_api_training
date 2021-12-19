@@ -1,7 +1,6 @@
 package fr.lernejo.navy_battle.game;
 
 import fr.lernejo.navy_battle.game.board.Board;
-import fr.lernejo.navy_battle.game.board.CellStatus;
 
 public class Game {
 
@@ -9,8 +8,8 @@ public class Game {
     private final String opponentId;
     private final String opponentUrl;
 
-    private final Board selfBoard = new Board(CellStatus.EMPTY);
-    private final Board opponentBoard = new Board(CellStatus.UNKNOWN);
+    private final Board selfBoard = new Board();
+    private final Board opponentBoard = new Board();
 
     public Game(final String selfId, final String opponentId, final String opponentUrl) {
         this.selfId = selfId;

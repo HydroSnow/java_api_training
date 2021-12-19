@@ -8,7 +8,7 @@ import java.util.UUID;
 public class GameBuilderTest {
 
     @Test
-    public void testA1() {
+    public void test() {
         final GameBuilder builder = new GameBuilder();
         final String selfId = builder.getSelfId();
         final String opponentId = UUID.randomUUID().toString();
