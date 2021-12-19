@@ -16,4 +16,20 @@ public class BoatTest {
         boat.getParts()[1].fire();
         Assert.assertFalse(boat.isValid());
     }
+
+    @Test
+    public void testShort() {
+        Assert.assertThrows(
+            IllegalArgumentException.class,
+            () -> new Boat(1)
+        );
+    }
+
+    @Test
+    public void testLong() {
+        Assert.assertThrows(
+            IllegalArgumentException.class,
+            () -> new Boat(7)
+        );
+    }
 }

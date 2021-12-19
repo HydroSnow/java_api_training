@@ -15,6 +15,10 @@ public class SelfBoardTest {
         final Boat boat1 = new Boat(2);
         board.addBoat(new CellCoordinates(6, 8), SelfBoard.Direction.VERTICAL, boat1);
         System.out.println(board);
+        Assert.assertThrows(
+            IllegalArgumentException.class,
+            () -> board.addBoat(new CellCoordinates(5, 8), SelfBoard.Direction.HORIZONTAL, new Boat(3))
+        );
         Assert.assertEquals(board.fire(new CellCoordinates(7, 8)), SelfBoard.Fire.MISS);
         Assert.assertTrue(board.isValid());
         Assert.assertEquals(board.fire(new CellCoordinates(6, 8)), SelfBoard.Fire.HIT);
