@@ -23,50 +23,68 @@ public class Board {
         VERTICAL;
     }
 
-    public void addBoat(final CellCoordinates coordinates, final Direction direction, final Boat boat) {
+    public boolean canPlaceBoat(final CellCoordinates coordinates, final Direction direction, final Boat boat) {
         if (direction == Direction.HORIZONTAL) {
             // board limit overlap check
             if (coordinates.getX() + boat.getLength() > CellCoordinates.HORIZONTAL_SIZE) {
-                throw new IllegalArgumentException("Boat overlaps board limit");
+                return false;
             }
 
             // boat overlap check
             final int y = coordinates.getY();
             for (int x = coordinates.getX(); x < coordinates.getX() + boat.getLength(); x++) {
                 if (this.grid[x][y] != null) {
-                    throw new IllegalArgumentException("Boat overlaps other boat");
+                    return false;
                 }
             }
 
-            // add boat to list
-            this.boats.add(boat);
-
-            // add boat to grid
-            final BoatPart[] parts = boat.getParts();
-            int partIndex = 0;
-            for (int x = coordinates.getX(); x < coordinates.getX() + boat.getLength(); x++) {
-                this.grid[x][y] = parts[partIndex++];
-            }
+            return true;
 
         } else if (direction == Direction.VERTICAL) {
             // board limit overlap check
             if (coordinates.getY() + boat.getLength() > CellCoordinates.VERTICAL_SIZE) {
-                throw new IllegalArgumentException("Boat overlaps board limit");
+                return false;
             }
 
             // boat overlap check
             final int x = coordinates.getX();
             for (int y = coordinates.getY(); y < coordinates.getY() + boat.getLength(); y++) {
                 if (this.grid[x][y] != null) {
-                    throw new IllegalArgumentException("Boat overlaps other boat");
+                    return false;
                 }
             }
 
+            return true;
+
+        } else {
+            throw new IllegalArgumentException("Direction is neither horizontal nor vertical");
+        }
+    }
+
+    public void addBoat(final CellCoordinates coordinates, final Direction direction, final Boat boat) {
+        if (!canPlaceBoat(coordinates, direction, boat)) {
+            throw new IllegalArgumentException("Cannot place boat here");
+        }
+
+        if (direction == Direction.HORIZONTAL) {
             // add boat to list
             this.boats.add(boat);
 
             // add boat to grid
             final BoatPart[] parts = boat.getParts();
+            final int y = coordinates.getY();
+            int partIndex = 0;
+            for (int x = coordinates.getX(); x < coordinates.getX() + boat.getLength(); x++) {
+                this.grid[x][y] = parts[partIndex++];
+            }
+
+        } else if (direction == Direction.VERTICAL) {
+            // add boat to list
+            this.boats.add(boat);
+
+            // add boat to grid
+            final BoatPart[] parts = boat.getParts();
+            final int x = coordinates.getX();
             int partIndex = 0;
             for (int y = coordinates.getY(); y < coordinates.getY() + boat.getLength(); y++) {
                 this.grid[x][y] = parts[partIndex++];
