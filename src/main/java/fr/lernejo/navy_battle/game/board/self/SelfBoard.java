@@ -1,14 +1,16 @@
-package fr.lernejo.navy_battle.game.board;
+package fr.lernejo.navy_battle.game.board.self;
+
+import fr.lernejo.navy_battle.game.board.CellCoordinates;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+public class SelfBoard {
 
     private final List<Boat> boats;
     private final BoatPart[][] grid;
 
-    public Board() {
+    public SelfBoard() {
         this.boats = new ArrayList<>();
         this.grid = new BoatPart[CellCoordinates.HORIZONTAL_SIZE][CellCoordinates.VERTICAL_SIZE];
         for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
@@ -20,7 +22,7 @@ public class Board {
 
     public enum Direction {
         HORIZONTAL,
-        VERTICAL;
+        VERTICAL
     }
 
     public boolean canPlaceBoat(final CellCoordinates coordinates, final Direction direction, final Boat boat) {
@@ -98,7 +100,7 @@ public class Board {
     public enum Fire {
         MISS,
         HIT,
-        SUNK;
+        SUNK
     }
 
     public Fire fire(final CellCoordinates coordinates) {

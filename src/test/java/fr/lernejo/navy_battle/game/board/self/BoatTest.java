@@ -1,4 +1,4 @@
-package fr.lernejo.navy_battle.game.board;
+package fr.lernejo.navy_battle.game.board.self;
 
 import org.junit.Assert;
 import org.junit.Test;

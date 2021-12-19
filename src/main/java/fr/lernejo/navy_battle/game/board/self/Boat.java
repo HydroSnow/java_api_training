@@ -1,10 +1,9 @@
-package fr.lernejo.navy_battle.game.board;
+package fr.lernejo.navy_battle.game.board.self;
 
 import java.util.Arrays;
 
 public class Boat {
 
-    private final int length;
     private final BoatPart[] parts;
 
     public Boat(final int length) {
@@ -15,15 +14,14 @@ public class Boat {
         if (length > 5) {
             throw new IllegalArgumentException("Boat is too long");
         }
-        this.length = length;
-        this.parts = new BoatPart[this.length];
+        this.parts = new BoatPart[length];
         for (int a = 0; a < this.parts.length; a++) {
             this.parts[a] = new BoatPart(this);
         }
     }
 
     public int getLength() {
-        return this.length;
+        return this.parts.length;
     }
 
     public BoatPart[] getParts() {
