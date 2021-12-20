@@ -7,6 +7,10 @@ import fr.lernejo.navy_battle.api.routes.NotFoundRoute;
 import fr.lernejo.navy_battle.api.routes.PingRoute;
 import fr.lernejo.navy_battle.client.Client;
 import fr.lernejo.navy_battle.game.Game;
+import fr.lernejo.navy_battle.game.board.CellConverter;
+import fr.lernejo.navy_battle.game.board.CellCoordinates;
+import fr.lernejo.navy_battle.game.strategy.ComputerPlayer;
+import fr.lernejo.navy_battle.game.strategy.Player;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -38,7 +42,20 @@ public class Launcher {
 
         final String selfId = UUID.randomUUID().toString();
         final String selfUrl = "http://" + "localhost" + ":" + port;
-        final Game game = new Game(selfId, selfUrl);
+        final Player player = new ComputerPlayer();
+        final Game game = new Game(selfId, selfUrl, player);
+
+        // create client
+        final Client client = new Client(game);
+        final Runnable onReadyToFire = () -> {
+            final CellCoordinates coordinates = player.giveCoordinates(game.getOpponentBoard());
+            final String cell = new CellConverter().convert(coordinates.getX(), coordinates.getY());
+            try {
+                client.fire(game, cell);
+            } catch (final IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
 
         // create api
         final Api api;
@@ -52,13 +69,12 @@ public class Launcher {
         }
         api.createContext("/", new NotFoundRoute());
         api.createContext("/ping", new PingRoute());
-        api.createContext("/api/game/start", new ApiGameStartRoute(game));
-        api.createContext("/api/game/fire", new ApiGameFireRoute(game));
+        api.createContext("/api/game/start", new ApiGameStartRoute(game, onReadyToFire));
+        api.createContext("/api/game/fire", new ApiGameFireRoute(game, onReadyToFire));
         System.out.println("Listening on " + selfUrl);
 
         if (args.length > 1) {
             final String opponentUrl = args[1];
-            final Client client = new Client(game);
             try {
                 client.startGame(opponentUrl);
             } catch (final IOException | InterruptedException e) {

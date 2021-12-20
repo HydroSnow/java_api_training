@@ -14,9 +14,11 @@ import java.util.Map;
 public class ApiGameFireRoute implements ApiHandler {
 
     private final Game game;
+    private final Runnable onReadyToFire;
 
-    public ApiGameFireRoute(final Game game) {
+    public ApiGameFireRoute(final Game game, final Runnable onReadyToFire) {
         this.game = game;
+        this.onReadyToFire = onReadyToFire;
     }
 
     @Override
@@ -49,6 +51,7 @@ public class ApiGameFireRoute implements ApiHandler {
             final Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("consequence", consequence);
             responseBody.put("shipLeft", shipLeft);
+            onReadyToFire.run();
             return new ApiResponse(202, responseBody);
         } else {
             return new ApiResponse(404, "Not Found: Method Not Allowed");

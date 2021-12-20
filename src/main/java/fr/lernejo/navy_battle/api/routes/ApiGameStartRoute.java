@@ -13,9 +13,11 @@ import java.util.Map;
 public class ApiGameStartRoute implements ApiHandler {
 
     private final Game game;
+    private final Runnable onReadyToFire;
 
-    public ApiGameStartRoute(final Game game) {
+    public ApiGameStartRoute(final Game game, final Runnable onReadyToFire) {
         this.game = game;
+        this.onReadyToFire = onReadyToFire;
     }
 
     @Override
@@ -77,6 +79,7 @@ public class ApiGameStartRoute implements ApiHandler {
             responseBody.put("id", game.getSelfId());
             responseBody.put("url", this.game.getSelfUrl());
             responseBody.put("message", "May the best code win");
+            onReadyToFire.run();
             return new ApiResponse(202, responseBody);
         } else {
             return new ApiResponse(404, "Not Found: Method Not Allowed");

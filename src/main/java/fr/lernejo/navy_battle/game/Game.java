@@ -3,7 +3,6 @@ package fr.lernejo.navy_battle.game;
 import fr.lernejo.navy_battle.game.board.opponent.OpponentBoard;
 import fr.lernejo.navy_battle.game.board.self.Boat;
 import fr.lernejo.navy_battle.game.board.self.SelfBoard;
-import fr.lernejo.navy_battle.game.strategy.ComputerPlayer;
 import fr.lernejo.navy_battle.game.strategy.Player;
 
 import java.util.ArrayList;
@@ -19,14 +18,13 @@ public class Game {
     private final SelfBoard selfBoard;
     private final OpponentBoard opponentBoard;
 
-    public Game(final String selfId, final String selfUrl) {
+    public Game(final String selfId, final String selfUrl, final Player player) {
         this.selfId = selfId;
         this.selfUrl = selfUrl;
 
         this.selfBoard = new SelfBoard();
         this.opponentBoard = new OpponentBoard();
 
-        final Player player = new ComputerPlayer();
         final List<Boat> boats = new ArrayList<>();
         boats.add(new Boat(2));
         boats.add(new Boat(3));

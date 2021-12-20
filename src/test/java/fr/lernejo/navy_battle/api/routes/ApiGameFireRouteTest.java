@@ -2,6 +2,7 @@ package fr.lernejo.navy_battle.api.routes;
 
 import fr.lernejo.navy_battle.api.ApiResponse;
 import fr.lernejo.navy_battle.game.Game;
+import fr.lernejo.navy_battle.game.strategy.ComputerPlayer;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,8 +18,8 @@ public class ApiGameFireRouteTest {
 
     @Before
     public void setUp() {
-        this.game = new Game(UUID.randomUUID().toString(), "localhost:8080");
-        this.route = new ApiGameFireRoute(this.game);
+        this.game = new Game(UUID.randomUUID().toString(), "localhost:8080", new ComputerPlayer());
+        this.route = new ApiGameFireRoute(this.game, () -> {});
     }
 
     @Test
