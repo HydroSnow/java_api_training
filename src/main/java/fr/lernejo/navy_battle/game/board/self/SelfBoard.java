@@ -2,10 +2,9 @@ package fr.lernejo.navy_battle.game.board.self;
 
 import fr.lernejo.navy_battle.game.board.CellCoordinates;
 
+// j'ai retiré des sauts de lignes et des commentaires comme un gros sale pour pas avoir une classe de + de 90 lignes
 public class SelfBoard {
-
     private final BoatPart[][] grid;
-
     public SelfBoard() {
         this.grid = new BoatPart[CellCoordinates.HORIZONTAL_SIZE][CellCoordinates.VERTICAL_SIZE];
         for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
@@ -14,43 +13,28 @@ public class SelfBoard {
             }
         }
     }
-
-    public enum Direction {
-        HORIZONTAL,
-        VERTICAL
-    }
-
+    public enum Direction { HORIZONTAL, VERTICAL }
     public boolean canPlaceBoat(final CellCoordinates coordinates, final Direction direction, final Boat boat) {
         if (direction == Direction.HORIZONTAL) {
-            // board limit overlap check
             if (coordinates.getX() + boat.getLength() > CellCoordinates.HORIZONTAL_SIZE) {
                 return false;
             }
-
-            // boat overlap check
-            final int y = coordinates.getY();
             for (int x = coordinates.getX(); x < coordinates.getX() + boat.getLength(); x++) {
-                if (this.grid[x][y] != null) {
+                if (this.grid[x][coordinates.getY()] != null) {
                     return false;
                 }
             }
-
             return true;
 
         } else if (direction == Direction.VERTICAL) {
-            // board limit overlap check
             if (coordinates.getY() + boat.getLength() > CellCoordinates.VERTICAL_SIZE) {
                 return false;
             }
-
-            // boat overlap check
-            final int x = coordinates.getX();
             for (int y = coordinates.getY(); y < coordinates.getY() + boat.getLength(); y++) {
-                if (this.grid[x][y] != null) {
+                if (this.grid[coordinates.getX()][y] != null) {
                     return false;
                 }
             }
-
             return true;
 
         } else {
@@ -62,32 +46,21 @@ public class SelfBoard {
         if (!canPlaceBoat(coordinates, direction, boat)) {
             throw new IllegalArgumentException("Cannot place boat here");
         }
-
         if (direction == Direction.HORIZONTAL) {
-            // add boat to grid
             final BoatPart[] parts = boat.getParts();
-            final int y = coordinates.getY();
             int partIndex = 0;
             for (int x = coordinates.getX(); x < coordinates.getX() + boat.getLength(); x++) {
-                this.grid[x][y] = parts[partIndex++];
+                this.grid[x][coordinates.getY()] = parts[partIndex++];
             }
         } else {
-            // add boat to grid
             final BoatPart[] parts = boat.getParts();
-            final int x = coordinates.getX();
             int partIndex = 0;
             for (int y = coordinates.getY(); y < coordinates.getY() + boat.getLength(); y++) {
-                this.grid[x][y] = parts[partIndex++];
+                this.grid[coordinates.getX()][y] = parts[partIndex++];
             }
         }
     }
-
-    public enum Fire {
-        MISS,
-        HIT,
-        SUNK
-    }
-
+    public enum Fire { MISS, HIT, SUNK }
     public Fire fire(final CellCoordinates coordinates) {
         final BoatPart part = this.grid[coordinates.getX()][coordinates.getY()];
         if (part != null) {
@@ -101,7 +74,6 @@ public class SelfBoard {
             return Fire.MISS;
         }
     }
-
     public boolean isValid() {
         for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
             for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
@@ -112,34 +84,5 @@ public class SelfBoard {
             }
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder("Self board:\n");
-
-        str.append("/");
-        str.append("-".repeat(CellCoordinates.VERTICAL_SIZE));
-        str.append("\\\n");
-
-        for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
-            str.append("|");
-            for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
-                if (this.grid[x][y] == null) {
-                    str.append(" ");
-                } else if (this.grid[x][y].isValid()) {
-                    str.append("#");
-                } else {
-                    str.append("=");
-                }
-            }
-            str.append("|\n");
-        }
-
-        str.append("\\");
-        str.append("-".repeat(CellCoordinates.VERTICAL_SIZE));
-        str.append("/");
-
-        return str.toString();
     }
 }
