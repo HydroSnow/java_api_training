@@ -20,7 +20,7 @@ public class Game {
     private final SelfBoard selfBoard;
     private final OpponentBoard opponentBoard;
 
-    public Game(final String selfId, final String selfUrl, final Player player) {
+    public Game(final String selfId, final String selfUrl, final Player player, final boolean fill) {
         this.selfId = selfId;
         this.selfUrl = selfUrl;
 
@@ -30,13 +30,15 @@ public class Game {
         this.selfBoard = new SelfBoard();
         this.opponentBoard = new OpponentBoard();
 
-        final List<Boat> boats = new ArrayList<>();
-        boats.add(new Boat(2));
-        boats.add(new Boat(3));
-        boats.add(new Boat(3));
-        boats.add(new Boat(4));
-        boats.add(new Boat(5));
-        player.placeBoats(boats, this.selfBoard);
+        if (fill) {
+            final List<Boat> boats = new ArrayList<>();
+            boats.add(new Boat(2));
+            boats.add(new Boat(3));
+            boats.add(new Boat(3));
+            boats.add(new Boat(4));
+            boats.add(new Boat(5));
+            player.placeBoats(boats, this.selfBoard);
+        }
     }
 
     public String getSelfId() {

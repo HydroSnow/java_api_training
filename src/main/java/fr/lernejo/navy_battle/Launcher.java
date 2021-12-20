@@ -42,7 +42,7 @@ public class Launcher {
         final String selfId = UUID.randomUUID().toString();
         final String selfUrl = "http://" + "localhost" + ":" + port;
         final Player player = new ComputerPlayer();
-        final Game game = new Game(selfId, selfUrl, player);
+        final Game game = new Game(selfId, selfUrl, player, true);
 
         // create client
         final Client client = new Client(game);

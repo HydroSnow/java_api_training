@@ -21,7 +21,7 @@ public class ApiGameStartRouteTest {
 
     @Before
     public void setUp() {
-        this.game = new Game(UUID.randomUUID().toString(), "localhost:8080", new ComputerPlayer());
+        this.game = new Game(UUID.randomUUID().toString(), "localhost:8080", new ComputerPlayer(), false);
         this.route = new ApiGameStartRoute(this.game, () -> {});
     }
 
