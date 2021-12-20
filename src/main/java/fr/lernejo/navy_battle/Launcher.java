@@ -47,12 +47,14 @@ public class Launcher {
         // create client
         final Client client = new Client(game);
         final Runnable onReadyToFire = () -> {
-            try {
-                final CellCoordinates coordinates = player.giveCoordinates(game.getOpponentBoard());
-                client.fire(game, coordinates);
-            } catch (final Exception e) {
-                e.printStackTrace();
-            }
+            new Thread(() -> {
+                try {
+                    final CellCoordinates coordinates = player.giveCoordinates(game.getOpponentBoard());
+                    client.fire(game, coordinates);
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
         };
 
         // create api

@@ -47,9 +47,7 @@ public class ApiGameFireRoute implements ApiHandler {
             };
             final boolean shipLeft = game.getSelfBoard().isValid();
             if (shipLeft) {
-                new Thread(() -> {
-                    onReadyToFire.run();
-                }).start();
+                onReadyToFire.run();
             } else {
                 System.out.println("I lost!");
             }
