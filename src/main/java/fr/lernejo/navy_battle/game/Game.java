@@ -12,16 +12,16 @@ import java.util.List;
 public class Game {
 
     private final String selfId;
-    private final String opponentId;
-    private final String opponentUrl;
+    private final String selfUrl;
+    private String opponentId;
+    private String opponentUrl;
 
     private final SelfBoard selfBoard;
     private final OpponentBoard opponentBoard;
 
-    public Game(final String selfId, final String opponentId, final String opponentUrl) {
+    public Game(final String selfId, final String selfUrl) {
         this.selfId = selfId;
-        this.opponentId = opponentId;
-        this.opponentUrl = opponentUrl;
+        this.selfUrl = selfUrl;
 
         this.selfBoard = new SelfBoard();
         this.opponentBoard = new OpponentBoard();
@@ -40,12 +40,24 @@ public class Game {
         return selfId;
     }
 
+    public String getSelfUrl() {
+        return selfUrl;
+    }
+
     public String getOpponentId() {
         return opponentId;
     }
 
+    public void setOpponentId(final String opponentId) {
+        this.opponentId = opponentId;
+    }
+
     public String getOpponentUrl() {
         return opponentUrl;
+    }
+
+    public void setOpponentUrl(final String opponentUrl) {
+        this.opponentUrl = opponentUrl;
     }
 
     public SelfBoard getSelfBoard() {

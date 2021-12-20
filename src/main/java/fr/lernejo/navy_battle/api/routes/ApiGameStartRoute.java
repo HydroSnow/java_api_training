@@ -6,18 +6,16 @@ import com.google.gson.JsonPrimitive;
 import fr.lernejo.navy_battle.api.ApiHandler;
 import fr.lernejo.navy_battle.api.ApiResponse;
 import fr.lernejo.navy_battle.game.Game;
-import fr.lernejo.navy_battle.game.GameBuilder;
-import fr.lernejo.navy_battle.game.GameManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ApiGameStartRoute implements ApiHandler {
 
-    private final GameManager manager;
+    private final Game game;
 
-    public ApiGameStartRoute(final GameManager manager) {
-        this.manager = manager;
+    public ApiGameStartRoute(final Game game) {
+        this.game = game;
     }
 
     @Override
@@ -71,15 +69,13 @@ public class ApiGameStartRoute implements ApiHandler {
             final String requestMessage = requestMessagePrimitive.getAsString();
 
             // creating game
-            final GameBuilder builder = new GameBuilder();
-            builder.setOpponentId(requestId);
-            builder.setOpponentUrl(requestUrl);
-            final Game game = this.manager.createGame(builder);
+            game.setOpponentId(requestId);
+            game.setOpponentUrl(requestUrl);
             System.out.println("Message from " + game.getOpponentId() + ": " + requestMessage);
 
             final Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("id", game.getSelfId());
-            responseBody.put("url", this.manager.getSelfUrl());
+            responseBody.put("url", this.game.getSelfUrl());
             responseBody.put("message", "May the best code win");
             return new ApiResponse(202, responseBody);
         } else {

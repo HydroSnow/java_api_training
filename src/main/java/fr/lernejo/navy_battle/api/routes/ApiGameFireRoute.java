@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import fr.lernejo.navy_battle.api.ApiHandler;
 import fr.lernejo.navy_battle.api.ApiResponse;
 import fr.lernejo.navy_battle.game.Game;
-import fr.lernejo.navy_battle.game.GameManager;
 import fr.lernejo.navy_battle.game.board.CellConverter;
 import fr.lernejo.navy_battle.game.board.CellCoordinates;
 import fr.lernejo.navy_battle.game.board.self.SelfBoard;
@@ -14,25 +13,15 @@ import java.util.Map;
 
 public class ApiGameFireRoute implements ApiHandler {
 
-    private final GameManager manager;
+    private final Game game;
 
-    public ApiGameFireRoute(final GameManager manager) {
-        this.manager = manager;
+    public ApiGameFireRoute(final Game game) {
+        this.game = game;
     }
 
     @Override
     public ApiResponse handle(final String method, final Map<String, String> queryParams, final JsonElement requestBodyElement) {
         if (method.equals("GET")) {
-            // parsing game
-            final String gameId = queryParams.get("game");
-            if (gameId == null) {
-                return new ApiResponse(400, "Bad Request: Missing \"game\" query parameter");
-            }
-            final Game game = manager.getGame(gameId);
-            if (game == null) {
-                return new ApiResponse(400, "Bad Request: Invalid game");
-            }
-
             // parsing cell and coordinates
             final String cell = queryParams.get("cell");
             if (cell == null) {

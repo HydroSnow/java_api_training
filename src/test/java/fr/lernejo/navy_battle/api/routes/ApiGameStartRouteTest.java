@@ -1,23 +1,24 @@
 package fr.lernejo.navy_battle.api.routes;
 
 import fr.lernejo.navy_battle.api.ApiResponse;
-import fr.lernejo.navy_battle.game.GameManager;
+import fr.lernejo.navy_battle.game.Game;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class ApiGameStartRouteTest {
 
-    private GameManager manager;
+    private Game game;
     private ApiGameStartRoute route;
 
     @Before
     public void setUp() {
-        this.manager = new GameManager("localhost:8080");
-        this.route = new ApiGameStartRoute(this.manager);
+        this.game = new Game(UUID.randomUUID().toString(), "localhost:8080");
+        this.route = new ApiGameStartRoute(this.game);
     }
 
     @Test
@@ -29,7 +30,7 @@ public class ApiGameStartRouteTest {
 
     @After
     public void tearDown() {
-        this.manager = null;
+        this.game = null;
         this.route = null;
     }
 }
