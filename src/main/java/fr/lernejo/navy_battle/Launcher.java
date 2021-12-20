@@ -7,7 +7,6 @@ import fr.lernejo.navy_battle.api.routes.NotFoundRoute;
 import fr.lernejo.navy_battle.api.routes.PingRoute;
 import fr.lernejo.navy_battle.client.Client;
 import fr.lernejo.navy_battle.game.Game;
-import fr.lernejo.navy_battle.game.board.CellConverter;
 import fr.lernejo.navy_battle.game.board.CellCoordinates;
 import fr.lernejo.navy_battle.game.strategy.ComputerPlayer;
 import fr.lernejo.navy_battle.game.strategy.Player;
@@ -48,12 +47,14 @@ public class Launcher {
         // create client
         final Client client = new Client(game);
         final Runnable onReadyToFire = () -> {
-            final CellCoordinates coordinates = player.giveCoordinates(game.getOpponentBoard());
-            try {
-                client.fire(game, coordinates);
-            } catch (final IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
+            new Thread(() -> {
+                try {
+                    final CellCoordinates coordinates = player.giveCoordinates(game.getOpponentBoard());
+                    client.fire(game, coordinates);
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
         };
 
         // create api

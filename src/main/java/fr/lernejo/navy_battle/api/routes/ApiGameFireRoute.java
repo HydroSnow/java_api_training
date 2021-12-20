@@ -46,13 +46,17 @@ public class ApiGameFireRoute implements ApiHandler {
                 case SUNK -> "sunk";
             };
             final boolean shipLeft = game.getSelfBoard().isValid();
+            if (shipLeft) {
+                onReadyToFire.run();
+            } else {
+                System.out.println("I lost!");
+            }
 
             // sending body
             final Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("consequence", consequence);
             responseBody.put("shipLeft", shipLeft);
-            onReadyToFire.run();
-            return new ApiResponse(202, responseBody);
+            return new ApiResponse(200, responseBody);
         } else {
             return new ApiResponse(404, "Not Found: Method Not Allowed");
         }

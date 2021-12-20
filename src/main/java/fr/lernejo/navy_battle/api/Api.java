@@ -4,12 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpServer;
-import fr.lernejo.navy_battle.api.routes.NotFoundRoute;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;

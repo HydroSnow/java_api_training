@@ -16,6 +16,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class Client {
 
@@ -27,7 +28,7 @@ public class Client {
     }
 
     public void startGame(final String opponentUrl) throws IOException, InterruptedException {
-        System.out.println("Starting game with " + opponentUrl);
+        System.out.println("Client: Starting game with " + opponentUrl);
 
         final Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("id", this.game.getSelfId());
@@ -44,6 +45,9 @@ public class Client {
 
         final HttpClient client = HttpClient.newHttpClient();
         final HttpResponse<String> response = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 202) {
+            throw new IllegalStateException("Server has not accepted start");
+        }
 
         final String responseJson = response.body();
         final JsonObject responseBody = this.gson.fromJson(responseJson, JsonObject.class);
@@ -53,14 +57,20 @@ public class Client {
 
         game.setOpponentId(responseId);
         game.setOpponentUrl(responseUrl);
-        System.out.println("Message from " + game.getOpponentId() + ": " + responseMessage);
+        try {
+            System.out.println("Message from " + game.getOpponentId().get() + ": " + responseMessage);
+        } catch (final InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void fire(final Game game, final CellCoordinates coordinates) throws IOException, InterruptedException {
+    public void fire(final Game game, final CellCoordinates coordinates) throws ExecutionException, IOException, InterruptedException {
+        final String opponentUrl = game.getOpponentUrl().get();
         final String cell = new CellConverter().convert(coordinates.getX(), coordinates.getY());
+        System.out.println("Client: Firing on " + cell + " with " + opponentUrl);
 
         final HttpRequest postRequest = HttpRequest.newBuilder()
-            .uri(URI.create(game.getOpponentUrl() + "/api/game/fire?cell=" + URLEncoder.encode(cell, StandardCharsets.UTF_8)))
+            .uri(URI.create(opponentUrl + "/api/game/fire?cell=" + URLEncoder.encode(cell, StandardCharsets.UTF_8)))
             .setHeader("Accept", "application/json")
             .setHeader("Content-Type", "application/json")
             .GET()
@@ -68,6 +78,9 @@ public class Client {
 
         final HttpClient client = HttpClient.newHttpClient();
         final HttpResponse<String> response = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 200) {
+            throw new IllegalStateException("Server has not accepted fire");
+        }
 
         final String responseJson = response.body();
         final JsonObject responseBody = this.gson.fromJson(responseJson, JsonObject.class);
@@ -81,7 +94,6 @@ public class Client {
         final boolean responseShipLeft = responseBody.get("shipLeft").getAsBoolean();
         if (!responseShipLeft) {
             System.out.println("I won!");
-            System.exit(0);
         }
     }
 }

@@ -9,6 +9,7 @@ import fr.lernejo.navy_battle.game.Game;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class ApiGameStartRoute implements ApiHandler {
 
@@ -73,13 +74,17 @@ public class ApiGameStartRoute implements ApiHandler {
             // creating game
             game.setOpponentId(requestId);
             game.setOpponentUrl(requestUrl);
-            System.out.println("Message from " + game.getOpponentId() + ": " + requestMessage);
+            try {
+                System.out.println("Message from " + game.getOpponentId().get() + ": " + requestMessage);
+            } catch (final InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+            onReadyToFire.run();
 
             final Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("id", game.getSelfId());
             responseBody.put("url", this.game.getSelfUrl());
             responseBody.put("message", "May the best code win");
-            onReadyToFire.run();
             return new ApiResponse(202, responseBody);
         } else {
             return new ApiResponse(404, "Not Found: Method Not Allowed");

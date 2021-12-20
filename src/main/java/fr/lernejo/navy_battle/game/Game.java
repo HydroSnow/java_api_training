@@ -7,13 +7,15 @@ import fr.lernejo.navy_battle.game.strategy.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 public class Game {
 
     private final String selfId;
     private final String selfUrl;
-    private String opponentId;
-    private String opponentUrl;
+    private final CompletableFuture<String> opponentId;
+    private final CompletableFuture<String> opponentUrl;
 
     private final SelfBoard selfBoard;
     private final OpponentBoard opponentBoard;
@@ -21,6 +23,9 @@ public class Game {
     public Game(final String selfId, final String selfUrl, final Player player) {
         this.selfId = selfId;
         this.selfUrl = selfUrl;
+
+        this.opponentId = new CompletableFuture<>();
+        this.opponentUrl = new CompletableFuture<>();
 
         this.selfBoard = new SelfBoard();
         this.opponentBoard = new OpponentBoard();
@@ -42,20 +47,20 @@ public class Game {
         return selfUrl;
     }
 
-    public String getOpponentId() {
+    public Future<String> getOpponentId() {
         return opponentId;
     }
 
     public void setOpponentId(final String opponentId) {
-        this.opponentId = opponentId;
+        this.opponentId.complete(opponentId);
     }
 
-    public String getOpponentUrl() {
+    public Future<String> getOpponentUrl() {
         return opponentUrl;
     }
 
     public void setOpponentUrl(final String opponentUrl) {
-        this.opponentUrl = opponentUrl;
+        this.opponentUrl.complete(opponentUrl);
     }
 
     public SelfBoard getSelfBoard() {
