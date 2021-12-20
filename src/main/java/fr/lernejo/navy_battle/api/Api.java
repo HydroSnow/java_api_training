@@ -83,8 +83,13 @@ public class Api {
                 responseBody = "Internal Server Error";
             }
 
-            final String json = this.gson.toJson(responseBody);
-            final byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
+            final String body;
+            if (responseBody instanceof String) {
+                body = (String) responseBody;
+            } else {
+                body = this.gson.toJson(responseBody);
+            }
+            final byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
             exchange.getResponseHeaders().put("Content-Type", Collections.singletonList("application/json"));
             exchange.sendResponseHeaders(status, bytes.length);
             try (final OutputStream os = exchange.getResponseBody()) {

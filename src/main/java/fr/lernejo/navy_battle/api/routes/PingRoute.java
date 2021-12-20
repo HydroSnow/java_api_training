@@ -11,7 +11,7 @@ public class PingRoute implements ApiHandler {
     @Override
     public ApiResponse handle(final String method, final Map<String, String> queryParams, final JsonElement requestBodyElement) {
         if (method.equals("GET")) {
-            return new ApiResponse(200, "Pong!");
+            return new ApiResponse(200, "OK");
         } else {
             return new ApiResponse(404, "Not Found: Method Not Allowed");
         }
