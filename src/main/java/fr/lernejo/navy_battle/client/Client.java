@@ -34,6 +34,8 @@ public class Client {
 
         final HttpRequest postRequest = HttpRequest.newBuilder()
             .uri(URI.create(opponentUrl + "/api/game/start"))
+            .setHeader("Accept", "application/json")
+            .setHeader("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(requestJson))
             .build();
 
@@ -53,7 +55,9 @@ public class Client {
 
     public void fire(final Game game, final String cell) throws IOException, InterruptedException {
         final HttpRequest postRequest = HttpRequest.newBuilder()
-            .uri(URI.create(game.getOpponentUrl() + "/api/game/start?cell=" + URLEncoder.encode(cell, StandardCharsets.UTF_8)))
+            .uri(URI.create(game.getOpponentUrl() + "/api/game/fire?cell=" + URLEncoder.encode(cell, StandardCharsets.UTF_8)))
+            .setHeader("Accept", "application/json")
+            .setHeader("Content-Type", "application/json")
             .GET()
             .build();
 
