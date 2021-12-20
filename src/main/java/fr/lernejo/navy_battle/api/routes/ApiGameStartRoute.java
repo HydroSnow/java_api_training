@@ -79,7 +79,14 @@ public class ApiGameStartRoute implements ApiHandler {
             } catch (final InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
-            onReadyToFire.run();
+            new Thread(() -> {
+                try {
+                    Thread.sleep(250);
+                } catch (final InterruptedException e) {
+                    e.printStackTrace();
+                }
+                onReadyToFire.run();
+            }).start();
 
             final Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("id", game.getSelfId());
