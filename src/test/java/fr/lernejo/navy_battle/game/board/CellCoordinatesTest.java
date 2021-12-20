@@ -35,10 +35,50 @@ public class CellCoordinatesTest {
     }
 
     @Test
+    public void test_minus2_1() {
+        Assert.assertThrows(
+            IllegalArgumentException.class,
+            () -> new CellCoordinates(-2, 1)
+        );
+    }
+
+    @Test
     public void test12_2() {
         Assert.assertThrows(
             IllegalArgumentException.class,
             () -> new CellCoordinates(12, 2)
+        );
+    }
+
+    @Test
+    public void test2_24() {
+        Assert.assertThrows(
+            IllegalArgumentException.class,
+            () -> new CellCoordinates(2, 24)
+        );
+    }
+
+    @Test
+    public void test_equals() {
+        Assert.assertEquals(
+            new CellCoordinates(2, 5),
+            new CellCoordinates(2, 5)
+        );
+    }
+
+    @Test
+    public void test_notEquals1() {
+        Assert.assertNotEquals(
+            new CellCoordinates(2, 6),
+            new Object()
+        );
+    }
+
+    @Test
+    public void test_notEquals2() {
+        Assert.assertNotEquals(
+            new CellCoordinates(2, 5),
+            new CellCoordinates(2, 6)
         );
     }
 }

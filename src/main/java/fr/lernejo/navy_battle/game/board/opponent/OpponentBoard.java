@@ -40,14 +40,14 @@ public class OpponentBoard {
         for (int y = 0; y < CellCoordinates.VERTICAL_SIZE; y++) {
             str.append("|");
             for (int x = 0; x < CellCoordinates.HORIZONTAL_SIZE; x++) {
-                if (this.grid[x][y] == null) {
-                    str.append(" ");
-                } else if (this.grid[x][y] == Cell.EMPTY) {
+                if (this.grid[x][y] == Cell.EMPTY) {
                     str.append("-");
                 } else if (this.grid[x][y] == Cell.HIT) {
                     str.append("#");
                 } else if (this.grid[x][y] == Cell.SUNK) {
                     str.append("S");
+                } else {
+                    str.append(" ");
                 }
             }
             str.append("|\n");

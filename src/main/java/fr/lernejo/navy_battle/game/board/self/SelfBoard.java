@@ -71,8 +71,7 @@ public class SelfBoard {
             for (int x = coordinates.getX(); x < coordinates.getX() + boat.getLength(); x++) {
                 this.grid[x][y] = parts[partIndex++];
             }
-
-        } else if (direction == Direction.VERTICAL) {
+        } else {
             // add boat to grid
             final BoatPart[] parts = boat.getParts();
             final int x = coordinates.getX();
@@ -80,9 +79,6 @@ public class SelfBoard {
             for (int y = coordinates.getY(); y < coordinates.getY() + boat.getLength(); y++) {
                 this.grid[x][y] = parts[partIndex++];
             }
-
-        } else {
-            throw new IllegalArgumentException("Direction is neither horizontal nor vertical");
         }
     }
 

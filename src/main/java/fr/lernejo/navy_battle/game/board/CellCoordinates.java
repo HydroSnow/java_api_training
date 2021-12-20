@@ -47,9 +47,4 @@ public class CellCoordinates {
     public int hashCode() {
         return this.x + this.y;
     }
-
-    @Override
-    public String toString() {
-        return "CellCoordinates[" + this.x + ", " + this.y + "]";
-    }
 }
