@@ -3,6 +3,9 @@ package fr.lernejo.navy_battle.client;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import fr.lernejo.navy_battle.game.Game;
+import fr.lernejo.navy_battle.game.board.CellConverter;
+import fr.lernejo.navy_battle.game.board.CellCoordinates;
+import fr.lernejo.navy_battle.game.board.opponent.OpponentBoard;
 
 import java.io.IOException;
 import java.net.URI;
@@ -53,7 +56,9 @@ public class Client {
         System.out.println("Message from " + game.getOpponentId() + ": " + responseMessage);
     }
 
-    public void fire(final Game game, final String cell) throws IOException, InterruptedException {
+    public void fire(final Game game, final CellCoordinates coordinates) throws IOException, InterruptedException {
+        final String cell = new CellConverter().convert(coordinates.getX(), coordinates.getY());
+
         final HttpRequest postRequest = HttpRequest.newBuilder()
             .uri(URI.create(game.getOpponentUrl() + "/api/game/fire?cell=" + URLEncoder.encode(cell, StandardCharsets.UTF_8)))
             .setHeader("Accept", "application/json")
@@ -63,5 +68,20 @@ public class Client {
 
         final HttpClient client = HttpClient.newHttpClient();
         final HttpResponse<String> response = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+
+        final String responseJson = response.body();
+        final JsonObject responseBody = this.gson.fromJson(responseJson, JsonObject.class);
+        final String responseConsequence = responseBody.get("consequence").getAsString();
+        switch (responseConsequence) {
+            case "miss" -> game.getOpponentBoard().setCell(coordinates, OpponentBoard.Cell.EMPTY);
+            case "hit" -> game.getOpponentBoard().setCell(coordinates, OpponentBoard.Cell.HIT);
+            case "sunk" -> game.getOpponentBoard().setCell(coordinates, OpponentBoard.Cell.SUNK);
+            default -> throw new IllegalStateException("Unknown consequence");
+        }
+        final boolean responseShipLeft = responseBody.get("shipLeft").getAsBoolean();
+        if (!responseShipLeft) {
+            System.out.println("I won!");
+            System.exit(0);
+        }
     }
 }

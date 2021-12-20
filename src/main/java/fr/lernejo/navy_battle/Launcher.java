@@ -49,9 +49,8 @@ public class Launcher {
         final Client client = new Client(game);
         final Runnable onReadyToFire = () -> {
             final CellCoordinates coordinates = player.giveCoordinates(game.getOpponentBoard());
-            final String cell = new CellConverter().convert(coordinates.getX(), coordinates.getY());
             try {
-                client.fire(game, cell);
+                client.fire(game, coordinates);
             } catch (final IOException | InterruptedException e) {
                 e.printStackTrace();
             }
