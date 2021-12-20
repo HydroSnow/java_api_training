@@ -16,14 +16,16 @@ import java.util.UUID;
 
 public class Launcher {
     public static void main(final String[] args) {
+        final long t0 = System.currentTimeMillis();
+
         // check if port argument present
         if (args.length < 1) {
             System.err.println("Missing port");
             System.exit(1);
             return;
         }
-        final int port;
         // parse port argument
+        final int port;
         try {
             port = Integer.parseInt(args[0]);
         } catch (final NumberFormatException e) {
@@ -72,6 +74,10 @@ public class Launcher {
         api.createContext("/api/game/start", new ApiGameStartRoute(game, onReadyToFire));
         api.createContext("/api/game/fire", new ApiGameFireRoute(game, onReadyToFire));
         System.out.println("Listening on " + selfUrl);
+
+        final long t1 = System.currentTimeMillis();
+        final long ms = t1 - t0;
+        System.out.println("Finished startup in " + ms + "ms");
 
         if (args.length > 1) {
             final String opponentUrl = args[1];

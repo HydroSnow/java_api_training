@@ -45,6 +45,7 @@ public class ApiGameFireRoute implements ApiHandler {
                 case HIT -> "hit";
                 case SUNK -> "sunk";
             };
+            System.out.println("Server: Fire on " + cell + ": " + consequence);
             final boolean shipLeft = game.getSelfBoard().isValid();
             if (shipLeft) {
                 onReadyToFire.run();
