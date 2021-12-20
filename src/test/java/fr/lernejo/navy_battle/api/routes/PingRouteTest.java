@@ -28,7 +28,7 @@ public class PingRouteTest {
     public void test() {
         final ApiResponse response = this.route.handle("GET", new HashMap<>(), null);
         Assert.assertEquals(response.getStatus(), 200);
-        Assert.assertEquals(response.getBody(), "Pong!");
+        Assert.assertEquals(response.getBody(), "OK");
     }
 
     @After
